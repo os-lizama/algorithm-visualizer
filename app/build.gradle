@@ -50,6 +50,8 @@ android {
 
 dependencies {
 
+    implementation project(path: ':data')
+
     // Activity
     implementation activity.compose
 
