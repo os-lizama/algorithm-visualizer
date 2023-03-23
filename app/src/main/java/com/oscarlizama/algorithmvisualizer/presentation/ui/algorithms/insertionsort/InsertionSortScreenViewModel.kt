@@ -63,11 +63,17 @@ class InsertionSortScreenViewModel(
     }
 
     private fun speedUpAlgorithm() {
-        TODO("Not yet implemented")
+        uiState = uiState.copy(
+            delay = uiState.delay - 50
+        )
     }
 
     private fun slowDownAlgorithm() {
-        TODO("Not yet implemented")
+        if (uiState.delay >= DELAY_LIMIT) {
+            uiState = uiState.copy(
+                delay = uiState.delay + 50
+            )
+        }
     }
 
     private fun playPauseAlgorithm() {
@@ -122,4 +128,7 @@ class InsertionSortScreenViewModel(
         val sortedArrayLevels: List<Int> = emptyList()
     )
 
+    companion object {
+        const val DELAY_LIMIT = 150L
+    }
 }
