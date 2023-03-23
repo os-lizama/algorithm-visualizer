@@ -129,7 +129,7 @@ class InsertionSortScreenViewModel(
         }
     }
 
-    sealed class UIEvent() {
+    sealed class UIEvent {
         object OnStart : UIEvent()
         data class OnAlgorithmEvent(val algorithmEvent: AlgorithmEvents) : UIEvent()
     }
