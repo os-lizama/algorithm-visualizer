@@ -55,11 +55,23 @@ class InsertionSortScreenViewModel(
     }
 
     private fun algorithmNextStep() {
-        TODO("Not yet implemented")
+        if (uiState.nextStep < uiState.sortedArrayLevels.size) {
+            uiState = uiState.copy(
+                arr = listOf(uiState.sortedArrayLevels[uiState.nextStep]),
+                nextStep = uiState.nextStep + 1,
+                previousStep = uiState.previousStep + 1
+            )
+        }
     }
 
     private fun algorithmPreviousStep() {
-        TODO("Not yet implemented")
+        if (uiState.previousStep >= 0) {
+            uiState = uiState.copy(
+                arr = listOf(uiState.sortedArrayLevels[uiState.previousStep]),
+                nextStep = uiState.nextStep - 1,
+                previousStep = uiState.previousStep - 1
+            )
+        }
     }
 
     private fun speedUpAlgorithm() {
@@ -93,7 +105,11 @@ class InsertionSortScreenViewModel(
                     arr = listOf(uiState.sortedArrayLevels[i])
                 )
             } else {
-                uiState = uiState.copy(sortingState = i)
+                uiState = uiState.copy(
+                    sortingState = i,
+                    nextStep = i + 1,
+                    previousStep = i
+                )
                 return@launch
             }
         }
@@ -122,6 +138,8 @@ class InsertionSortScreenViewModel(
         val arr: List<Int> = emptyList(),
         val isPlaying: Boolean = false,
         val pause: Boolean = false,
+        val previousStep: Int = 0,
+        val nextStep: Int = 1,
         val sortingState: Int = 0,
         val onSortingFinished: Boolean = false,
         val delay: Long = 150L,
