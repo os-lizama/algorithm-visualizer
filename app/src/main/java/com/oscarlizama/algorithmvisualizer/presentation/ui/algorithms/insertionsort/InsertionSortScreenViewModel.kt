@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.oscarlizama.data.algorithms.insertionsort.InsertionSort
 import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort.InsertionSortScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class InsertionSortScreenViewModel(
@@ -33,7 +34,7 @@ class InsertionSortScreenViewModel(
         }
     }
 
-    fun onAlgorithmEvent(algorithmEvent: AlgorithmEvents) {
+    private fun onAlgorithmEvent(algorithmEvent: AlgorithmEvents) {
         when (algorithmEvent) {
             is AlgorithmEvents.PlayPause -> {
                 playPauseAlgorithm()
@@ -70,7 +71,33 @@ class InsertionSortScreenViewModel(
     }
 
     private fun playPauseAlgorithm() {
-        TODO("Not yet implemented")
+        if (uiState.isPlaying)
+            pauseAlgorithm()
+        else
+            playAlgorithm()
+        uiState = uiState.copy(isPlaying = uiState.isPlaying.not())
+    }
+
+    private fun playAlgorithm() = viewModelScope.launch {
+        uiState = uiState.copy(pause = false)
+        for (i in 0 until uiState.sortedArrayLevels.size) {
+            if (!uiState.pause) {
+                delay(uiState.delay)
+                uiState = uiState.copy(
+                    arr = listOf(uiState.sortedArrayLevels[i])
+                )
+            } else {
+                uiState = uiState.copy(sortingState = i)
+                return@launch
+            }
+        }
+        uiState = uiState.copy(
+            onSortingFinished = true
+        )
+    }
+
+    private fun pauseAlgorithm() {
+        uiState = uiState.copy(pause = true)
     }
 
     fun onUiEvent(uiEvent: UIEvent) {
@@ -88,6 +115,8 @@ class InsertionSortScreenViewModel(
     data class UIState(
         val arr: List<Int> = emptyList(),
         val isPlaying: Boolean = false,
+        val pause: Boolean = false,
+        val sortingState: Int = 0,
         val onSortingFinished: Boolean = false,
         val delay: Long = 150L,
         val sortedArrayLevels: List<Int> = emptyList()
