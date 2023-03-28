@@ -17,6 +17,7 @@ import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmv
 import com.oscarlizama.algorithmvisualizer.presentation.uielement.AlgorithmVisualizer
 import com.oscarlizama.algorithmvisualizer.presentation.uielement.BottomBarControls
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
+import com.oscarlizama.algorithmvisualizer.presentation.util.SortingAlgorithm
 import com.oscarlizama.algorithmvisualizer.ui.util.Spacer16
 import com.oscarlizama.algorithmvisualizer.ui.util.Spacer4
 
@@ -25,7 +26,7 @@ fun AlgorithmVisualizerScreen() {
     val viewModel = viewModel<AlgorithmVisualizerScreenViewModel>()
     LaunchedEffect(key1 = true) {
         viewModel.onUiEvent(OnStart)
-        viewModel.onUiEvent(OnSortArray)
+        viewModel.onUiEvent(OnSortArray(SortingAlgorithm.BUBBLE_SORT))
     }
 
     Column(
