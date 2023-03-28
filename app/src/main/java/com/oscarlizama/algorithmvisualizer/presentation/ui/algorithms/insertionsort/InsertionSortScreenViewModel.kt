@@ -1,5 +1,11 @@
 package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oscarlizama.data.algorithms.insertionsort.InsertionSort
@@ -9,27 +15,24 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class InsertionSortScreenViewModel(
-    private val insertionSort: InsertionSort
+    private val insertionSort: InsertionSort = InsertionSort()
 ) : ViewModel() {
 
-    var uiState: UIState = UIState()
+    var uiState by mutableStateOf(UIState())
         private set
 
     private fun onStart() {
         uiState = uiState.copy(
-            arr = listOf(100, 120, 80, 55, 40, 5, 25, 320, 80, 23, 534, 64)
+            arr = mutableStateListOf(100, 120, 80, 55, 40, 5, 25, 320, 80, 23, 534, 64)
         )
-        onSortArray()
     }
 
     private fun onSortArray() {
         viewModelScope.launch {
             insertionSort.sort(
-                arr = uiState.arr.toIntArray()
+                arr = uiState.arr.toIntArray().clone()
             ) { modifiedArray ->
-                uiState = uiState.copy(
-                    sortedArrayLevels = uiState.sortedArrayLevels + modifiedArray.toList()
-                )
+                uiState.sortedArrayLevels.add(modifiedArray.toList())
             }
         }
     }
@@ -57,7 +60,7 @@ class InsertionSortScreenViewModel(
     private fun algorithmNextStep() {
         if (uiState.nextStep < uiState.sortedArrayLevels.size) {
             uiState = uiState.copy(
-                arr = listOf(uiState.sortedArrayLevels[uiState.nextStep]),
+                arr = uiState.sortedArrayLevels[uiState.nextStep].toMutableStateList(),
                 nextStep = uiState.nextStep + 1,
                 previousStep = uiState.previousStep + 1
             )
@@ -67,7 +70,7 @@ class InsertionSortScreenViewModel(
     private fun algorithmPreviousStep() {
         if (uiState.previousStep >= 0) {
             uiState = uiState.copy(
-                arr = listOf(uiState.sortedArrayLevels[uiState.previousStep]),
+                arr = uiState.sortedArrayLevels[uiState.previousStep].toMutableStateList(),
                 nextStep = uiState.nextStep - 1,
                 previousStep = uiState.previousStep - 1
             )
@@ -97,12 +100,16 @@ class InsertionSortScreenViewModel(
     }
 
     private fun playAlgorithm() = viewModelScope.launch {
-        uiState = uiState.copy(pause = false)
-        for (i in 0 until uiState.sortedArrayLevels.size) {
+        uiState = uiState.copy(
+            pause = false,
+            onSortingFinished = false
+        )
+        for (i in uiState.sortingState until uiState.sortedArrayLevels.size) {
             if (!uiState.pause) {
                 delay(uiState.delay)
                 uiState = uiState.copy(
-                    arr = listOf(uiState.sortedArrayLevels[i])
+                    arr = uiState.sortedArrayLevels[i].toMutableStateList(),
+                    sortingState = i
                 )
             } else {
                 uiState = uiState.copy(
@@ -114,7 +121,9 @@ class InsertionSortScreenViewModel(
             }
         }
         uiState = uiState.copy(
-            onSortingFinished = true
+            onSortingFinished = true,
+            sortingState = 0,
+            isPlaying = false
         )
     }
 
@@ -126,16 +135,18 @@ class InsertionSortScreenViewModel(
         when (uiEvent) {
             is OnStart -> onStart()
             is UIEvent.OnAlgorithmEvent -> onAlgorithmEvent(algorithmEvent = uiEvent.algorithmEvent)
+            is UIEvent.OnSortArray -> onSortArray()
         }
     }
 
     sealed class UIEvent {
         object OnStart : UIEvent()
         data class OnAlgorithmEvent(val algorithmEvent: AlgorithmEvents) : UIEvent()
+        object OnSortArray : UIEvent()
     }
 
     data class UIState(
-        val arr: List<Int> = emptyList(),
+        val arr: SnapshotStateList<Int> = mutableStateListOf(),
         val isPlaying: Boolean = false,
         val pause: Boolean = false,
         val previousStep: Int = 0,
@@ -143,7 +154,7 @@ class InsertionSortScreenViewModel(
         val sortingState: Int = 0,
         val onSortingFinished: Boolean = false,
         val delay: Long = 150L,
-        val sortedArrayLevels: List<Int> = emptyList()
+        val sortedArrayLevels: MutableList<List<Int>> = mutableListOf()
     )
 
     companion object {
