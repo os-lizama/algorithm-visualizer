@@ -1,4 +1,4 @@
-package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort
+package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -9,12 +9,12 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oscarlizama.data.algorithms.insertionsort.InsertionSort
-import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort.InsertionSortScreenViewModel.UIEvent.OnStart
+import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class InsertionSortScreenViewModel(
+class AlgorithmVisualizerScreenViewModel(
     private val insertionSort: InsertionSort = InsertionSort()
 ) : ViewModel() {
 
