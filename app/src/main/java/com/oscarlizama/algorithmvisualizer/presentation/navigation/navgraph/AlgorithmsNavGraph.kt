@@ -6,17 +6,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.oscarlizama.algorithmvisualizer.presentation.navigation.ALGORITHMS_ROUTE
 import com.oscarlizama.algorithmvisualizer.presentation.navigation.Screen
-import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort.InsertionSortScreen
+import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer.AlgorithmVisualizerScreen
 
 fun NavGraphBuilder.algorithmsNavGraph(navController: NavController) {
     navigation(
-        startDestination = Screen.InsertionSortScreen.route,
+        startDestination = Screen.AlgorithmVisualizerScreen.route,
         route = ALGORITHMS_ROUTE
     ) {
         composable(
-            route = Screen.InsertionSortScreen.route
+            route = Screen.AlgorithmVisualizerScreen.route
         ) {
-            InsertionSortScreen()
+            AlgorithmVisualizerScreen()
         }
     }
 }

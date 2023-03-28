@@ -1,4 +1,4 @@
-package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort
+package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -9,13 +9,16 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oscarlizama.data.algorithms.insertionsort.InsertionSort
-import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.insertionsort.InsertionSortScreenViewModel.UIEvent.OnStart
+import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
+import com.oscarlizama.algorithmvisualizer.presentation.util.SortingAlgorithm
+import com.oscarlizama.domain.algorithms.bubblesort.BubbleSort
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class InsertionSortScreenViewModel(
-    private val insertionSort: InsertionSort = InsertionSort()
+class AlgorithmVisualizerScreenViewModel(
+    private val insertionSort: InsertionSort = InsertionSort(),
+    private val bubbleSort: BubbleSort = BubbleSort()
 ) : ViewModel() {
 
     var uiState by mutableStateOf(UIState())
@@ -27,12 +30,23 @@ class InsertionSortScreenViewModel(
         )
     }
 
-    private fun onSortArray() {
+    private fun onSortArray(sortingAlgorithm: SortingAlgorithm) {
         viewModelScope.launch {
-            insertionSort.sort(
-                arr = uiState.arr.toIntArray().clone()
-            ) { modifiedArray ->
-                uiState.sortedArrayLevels.add(modifiedArray.toList())
+            when (sortingAlgorithm) {
+                SortingAlgorithm.INSERTION_SORT -> {
+                    insertionSort.sort(
+                        arr = uiState.arr.toIntArray().clone()
+                    ) { modifiedArray ->
+                        uiState.sortedArrayLevels.add(modifiedArray.toList())
+                    }
+                }
+                SortingAlgorithm.BUBBLE_SORT -> {
+                    bubbleSort.sort(
+                        arr = uiState.arr.toIntArray().clone()
+                    ) { modifiedArray ->
+                        uiState.sortedArrayLevels.add(modifiedArray.toList())
+                    }
+                }
             }
         }
     }
@@ -135,14 +149,14 @@ class InsertionSortScreenViewModel(
         when (uiEvent) {
             is OnStart -> onStart()
             is UIEvent.OnAlgorithmEvent -> onAlgorithmEvent(algorithmEvent = uiEvent.algorithmEvent)
-            is UIEvent.OnSortArray -> onSortArray()
+            is UIEvent.OnSortArray -> onSortArray(uiEvent.sortingAlgorithm)
         }
     }
 
     sealed class UIEvent {
         object OnStart : UIEvent()
         data class OnAlgorithmEvent(val algorithmEvent: AlgorithmEvents) : UIEvent()
-        object OnSortArray : UIEvent()
+        data class OnSortArray(val sortingAlgorithm: SortingAlgorithm) : UIEvent()
     }
 
     data class UIState(

@@ -7,7 +7,7 @@ plugins {
 apply from: '../dependencies.gradle'
 
 android {
-    namespace 'com.oscarlizama.data'
+    namespace 'com.oscarlizama.domain'
     compileSdk compile_sdk_version
 
     defaultConfig {
@@ -34,8 +34,6 @@ android {
 }
 
 dependencies {
-
-    implementation project(path: ':domain')
 
     // Common Test
     testImplementation common_test.junit
