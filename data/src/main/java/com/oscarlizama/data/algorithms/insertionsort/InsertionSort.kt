@@ -2,7 +2,7 @@ package com.oscarlizama.data.algorithms.insertionsort
 
 class InsertionSort {
 
-    suspend fun sort(
+    fun sort(
         arr: IntArray,
         onSwap: (IntArray) -> Unit
     ) {
