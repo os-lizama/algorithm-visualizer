@@ -7,7 +7,7 @@ plugins {
 apply from: '../dependencies.gradle'
 
 android {
-    namespace 'com.oscarlizama.data'
+    namespace 'com.oscarlizama.domain'
     compileSdk compile_sdk_version
 
     defaultConfig {
