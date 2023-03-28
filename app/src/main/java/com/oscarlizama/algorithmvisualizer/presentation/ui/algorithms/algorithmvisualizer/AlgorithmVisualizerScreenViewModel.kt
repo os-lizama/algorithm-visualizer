@@ -8,7 +8,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oscarlizama.data.algorithms.insertionsort.InsertionSort
+import com.oscarlizama.domain.algorithms.insertionsort.InsertionSort
 import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
 import com.oscarlizama.algorithmvisualizer.presentation.util.SortingAlgorithm
