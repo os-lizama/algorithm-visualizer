@@ -1,4 +1,4 @@
-package com.oscarlizama.data.algorithms.insertionsort
+package com.oscarlizama.domain.algorithms.insertionsort
 
 class InsertionSort {
 
