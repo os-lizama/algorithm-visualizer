@@ -11,7 +11,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnAlgorithmEvent
 import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnSortArray
@@ -26,7 +25,6 @@ import com.oscarlizama.algorithmvisualizer.ui.util.Spacer4
 fun AlgorithmVisualizerScreen(
     viewModel: AlgorithmVisualizerScreenViewModel = hiltViewModel()
 ) {
-    val viewModel = viewModel<AlgorithmVisualizerScreenViewModel>()
     LaunchedEffect(key1 = true) {
         viewModel.onUiEvent(OnStart)
         viewModel.onUiEvent(OnSortArray(SortingAlgorithm.BUBBLE_SORT))
