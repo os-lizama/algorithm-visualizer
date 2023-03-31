@@ -11,6 +11,12 @@ ext {
             compose :   "androidx.activity:activity-compose:$activity_version"
     ]
 
+    appcompat_version = "1.6.1"
+    appcompat = [
+            appcompat           : "androidx.appcompat:appcompat:$appcompat_version",
+            appcompat_resources : "androidx.appcompat:appcompat-resources:$appcompat_version"
+    ]
+
     // Common
     core_ktx_version = "1.8.0"
 
@@ -48,6 +54,19 @@ ext {
             extended_icons  :   "androidx.compose.material:material-icons-extended:$compose_version",
     ]
 
+    // Hilt
+    hilt_version = "2.44.2"
+    hilt_androidx_version = "1.0.0"
+
+    dagger_hilt = [
+            plugin    : "com.google.dagger:hilt-android-gradle-plugin:${hilt_version}",
+            android   : "com.google.dagger:hilt-android:${hilt_version}",
+            compiler  : "com.google.dagger:hilt-android-compiler:${hilt_version}",
+            navigation: "androidx.hilt:hilt-navigation-compose:${hilt_androidx_version}",
+            common    : "androidx.hilt:hilt-common:${hilt_androidx_version}",
+            work      : "androidx.hilt:hilt-work:${hilt_androidx_version}"
+    ]
+
     // Lifecycle
     lifecycle_version = "2.5.1"
 
@@ -65,5 +84,12 @@ ext {
     navigation = [
             compose: "androidx.navigation:navigation-compose:${navigation_version}",
             test   : "androidx.navigation:navigation-testing:${navigation_version}"
+    ]
+
+    // Work Manager
+    workmanager_version = "2.7.1"
+
+    work_manager = [
+            runtime: "androidx.work:work-runtime-ktx:${workmanager_version}"
     ]
 }

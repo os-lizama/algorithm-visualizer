@@ -1,4 +1,4 @@
-package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer
+package com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -9,16 +9,19 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oscarlizama.domain.algorithms.insertionsort.InsertionSort
-import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
+import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
 import com.oscarlizama.algorithmvisualizer.presentation.util.SortingAlgorithm
 import com.oscarlizama.domain.algorithms.bubblesort.BubbleSort
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AlgorithmVisualizerScreenViewModel(
-    private val insertionSort: InsertionSort = InsertionSort(),
-    private val bubbleSort: BubbleSort = BubbleSort()
+@HiltViewModel
+class AlgorithmVisualizerScreenViewModel @Inject constructor(
+    private val insertionSort: InsertionSort,
+    private val bubbleSort: BubbleSort
 ) : ViewModel() {
 
     var uiState by mutableStateOf(UIState())

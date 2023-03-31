@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'dagger.hilt.android.plugin'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
@@ -31,9 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {
+
+    // Hilt
+    implementation dagger_hilt.android
+    kapt dagger_hilt.compiler
 
     // Common Test
     testImplementation common_test.junit

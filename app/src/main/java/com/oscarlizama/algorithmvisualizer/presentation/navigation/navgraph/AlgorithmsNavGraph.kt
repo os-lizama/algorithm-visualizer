@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.oscarlizama.algorithmvisualizer.presentation.navigation.ALGORITHMS_ROUTE
 import com.oscarlizama.algorithmvisualizer.presentation.navigation.Screen
-import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithms.algorithmvisualizer.AlgorithmVisualizerScreen
+import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer.AlgorithmVisualizerScreen
 
 fun NavGraphBuilder.algorithmsNavGraph(navController: NavController) {
     navigation(

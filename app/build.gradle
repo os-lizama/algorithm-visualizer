@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'dagger.hilt.android.plugin'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
@@ -46,6 +47,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {
@@ -55,6 +59,7 @@ dependencies {
 
     // Activity
     implementation activity.compose
+    implementation appcompat.appcompat
 
     // Common
     implementation common.core_ktlx
@@ -69,6 +74,13 @@ dependencies {
     androidTestImplementation compose.test
     implementation compose.extended_icons
 
+    // Hilt
+    implementation dagger_hilt.android
+    kapt dagger_hilt.compiler
+    implementation dagger_hilt.navigation
+    implementation dagger_hilt.common
+    implementation dagger_hilt.work
+
     // Lifecycle
     implementation lifecycle.runtime
     implementation lifecycle.compiler
@@ -79,6 +91,9 @@ dependencies {
     // Navigation
     implementation navigation.compose
     implementation navigation.test
+
+    // Work Manager
+    implementation work_manager.runtime
 
     // Common test
     testImplementation common_test.junit
