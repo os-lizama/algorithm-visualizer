@@ -6,8 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.oscarlizama.algorithmvisualizer.presentation.base.BaseViewModel
+import com.oscarlizama.algorithmvisualizer.presentation.navigation.ALGORITHM_IDENTIFIER
+import com.oscarlizama.algorithmvisualizer.presentation.navigation.Screen
 import com.oscarlizama.domain.algorithms.insertionsort.InsertionSort
 import com.oscarlizama.algorithmvisualizer.presentation.ui.algorithmvisualizer.AlgorithmVisualizerScreenViewModel.UIEvent.OnStart
 import com.oscarlizama.algorithmvisualizer.presentation.util.AlgorithmEvents
@@ -21,15 +25,19 @@ import javax.inject.Inject
 @HiltViewModel
 class AlgorithmVisualizerScreenViewModel @Inject constructor(
     private val insertionSort: InsertionSort,
-    private val bubbleSort: BubbleSort
-) : ViewModel() {
+    private val bubbleSort: BubbleSort,
+    savedStateHandle: SavedStateHandle
+) : BaseViewModel() {
+
+    private val array = mutableStateListOf(100, 120, 80, 55, 40, 5, 25, 320, 80, 23, 534, 64)
+    val algorithm = savedStateHandle[ALGORITHM_IDENTIFIER] ?: SortingAlgorithm.BUBBLE_SORT
 
     var uiState by mutableStateOf(UIState())
         private set
 
     private fun onStart() {
         uiState = uiState.copy(
-            arr = mutableStateListOf(100, 120, 80, 55, 40, 5, 25, 320, 80, 23, 534, 64)
+            arr = array
         )
     }
 
@@ -151,6 +159,7 @@ class AlgorithmVisualizerScreenViewModel @Inject constructor(
     fun onUiEvent(uiEvent: UIEvent) {
         when (uiEvent) {
             is OnStart -> onStart()
+            is UIEvent.OnNavigateBack -> navigateBack(popTo = Screen.HomeScreen.route)
             is UIEvent.OnAlgorithmEvent -> onAlgorithmEvent(algorithmEvent = uiEvent.algorithmEvent)
             is UIEvent.OnSortArray -> onSortArray(uiEvent.sortingAlgorithm)
         }
@@ -158,6 +167,7 @@ class AlgorithmVisualizerScreenViewModel @Inject constructor(
 
     sealed class UIEvent {
         object OnStart : UIEvent()
+        object OnNavigateBack : UIEvent()
         data class OnAlgorithmEvent(val algorithmEvent: AlgorithmEvents) : UIEvent()
         data class OnSortArray(val sortingAlgorithm: SortingAlgorithm) : UIEvent()
     }
