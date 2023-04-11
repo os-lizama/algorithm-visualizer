@@ -7,7 +7,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oscarlizama.algorithmvisualizer.presentation.base.BaseViewModel
 import com.oscarlizama.algorithmvisualizer.presentation.navigation.ALGORITHM_IDENTIFIER
